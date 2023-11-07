@@ -110,7 +110,18 @@
 
   // AJAX call to get order payment page for receipt and potentially mark order as complete usign FS API
   function requestPaymentCompletionUrl (data, cb) { // eslint-disable-line no-unused-vars
-    data.security = woocommerce_fastspring_params.nonce.receipt
+    var nonce = {};
+    jQuery.ajax({
+      type: 'POST',
+      dataType: 'json',
+      data: {action: 'wc-fastspring-generate-nonce'},
+      url: '/wp-admin/admin-ajax.php',
+      success: function(response) {
+        nonce = response.nonce;
+      },
+      async: false,
+    });
+    data.security = nonce.receipt;
     
     jQuery.ajax({
       type: 'POST',

@@ -244,10 +244,7 @@ class WC_Gateway_FastSpring extends WC_Payment_Gateway
         }
 
         $fastspring_params = array(
-            'ajax_url' => WC_AJAX::get_endpoint('%%endpoint%%'),
-            'nonce' => array(
-              'receipt' => wp_create_nonce('wc-fastspring-receipt'),
-            ),
+            'ajax_url' => WC_AJAX::get_endpoint('%%endpoint%%')
         );
 
         $custom_css = '.woocommerce-checkout #payment ul.payment_methods li img.fastspring-icon { max-width: 40px; padding-left: 3px; margin: 0; }';

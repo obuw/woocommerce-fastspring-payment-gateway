@@ -105,6 +105,9 @@ if (!class_exists('WC_FastSpring')) :
             add_action('admin_notices', array($this, 'admin_notices'), 15);
             add_action('plugins_loaded', array($this, 'init'));
             self::set_settings();
+
+            add_action('wp_ajax_wc-fastspring-generate-nonce', array($this, 'generate_nonce'));
+            add_action('wp_ajax_nopriv_wc-fastspring-generate-nonce', array($this, 'generate_nonce'));
         }
 
         /**
@@ -381,6 +384,14 @@ if (!class_exists('WC_FastSpring')) :
         {
             $methods[] = 'WC_Gateway_FastSpring';
             return $methods;
+        }
+
+        /**
+         * Generate nonce (called through AJAX during checkout)
+         */
+        public function generate_nonce() {
+            echo json_encode(array('nonce' => array('receipt' => wp_create_nonce('wc-fastspring-receipt'))));
+            wp_die();
         }
 
         /**
