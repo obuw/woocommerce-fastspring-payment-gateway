@@ -1,5 +1,6 @@
 <?php
-if (!defined('ABSPATH')) {
+if (!defined('ABSPATH'))
+{
     exit;
 }
 
@@ -13,9 +14,9 @@ include_once dirname(__FILE__) . '/class-wc-gateway-fastspring-builder.php';
 class WC_Gateway_FastSpring extends WC_Payment_Gateway
 {
 
-  /**
-   * Constructor
-   */
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $this->id = 'fastspring';
@@ -39,7 +40,7 @@ class WC_Gateway_FastSpring extends WC_Payment_Gateway
             // 'subscription_payment_method_change_admin',
             'multiple_subscriptions',
             //'pre-orders',
-            );
+        );
 
         // FS not implemented for subscriptions:
         // subscription.trial.reminder
@@ -58,7 +59,8 @@ class WC_Gateway_FastSpring extends WC_Payment_Gateway
         $this->title = self::get_setting('title');
         $this->description = self::get_setting('description');
 
-        if (self::get_setting('testmode')) {
+        if (self::get_setting('testmode'))
+        {
             $this->description .= "\n" . sprintf(__('TEST MODE ENABLED. In test mode, you can use the card numbers provided in the test panel of the FastSpring dashboard. Please check the documentation "<a target="_blank" href="%s">Testing Orders</a>" for more information.', 'woocommerce-gateway-fastspring'), 'http://docs.fastspring.com/activity-events-orders-and-subscriptions/test-orders');
 
             $this->description = trim($this->description);
@@ -78,7 +80,8 @@ class WC_Gateway_FastSpring extends WC_Payment_Gateway
      */
     public function validate_access_key_field($key, $value)
     {
-        if (!empty($value)) {
+        if (!empty($value))
+        {
             return $value;
         }
         WC_Admin_Settings::add_error(esc_html__('A FastSpring access key is required.', 'woocommerce-gateway-fastspring'));
@@ -91,7 +94,8 @@ class WC_Gateway_FastSpring extends WC_Payment_Gateway
      */
     public function validate_private_key_field($key, $value)
     {
-        if (@openssl_private_encrypt('abc', $aes_key_encrypted, openssl_pkey_get_private($value))) {
+        if (@openssl_private_encrypt('abc', $aes_key_encrypted, openssl_pkey_get_private($value)))
+        {
             return $value;
         }
 
@@ -105,7 +109,8 @@ class WC_Gateway_FastSpring extends WC_Payment_Gateway
      */
     public function validate_title_field($key, $value)
     {
-        if (empty($value)) {
+        if (empty($value))
+        {
             WC_Admin_Settings::add_error(esc_html__('Enter a valid title.', 'woocommerce-gateway-fastspring'));
         }
         return $value;
@@ -118,9 +123,12 @@ class WC_Gateway_FastSpring extends WC_Payment_Gateway
      */
     public function validate_storefront_path_field($key, $value)
     {
-        if (empty($value)) {
+        if (empty($value))
+        {
             WC_Admin_Settings::add_error(esc_html__('Enter a valid storefront path.', 'woocommerce-gateway-fastspring'));
-        } elseif (!empty($value)) {
+        }
+        elseif (!empty($value))
+        {
             return preg_replace('#^https?://#', '', rtrim($value, '/'));
         }
     }
@@ -130,11 +138,13 @@ class WC_Gateway_FastSpring extends WC_Payment_Gateway
      */
     public function is_available()
     {
-        if (!self::get_setting('enabled')) {
+        if (!self::get_setting('enabled'))
+        {
             return false;
         }
 
-        if (self::get_setting('access_key') && self::get_setting('private_key') && self::get_setting('storefront_path')) {
+        if (self::get_setting('access_key') && self::get_setting('private_key') && self::get_setting('storefront_path'))
+        {
             return true;
         }
         return false;
@@ -151,19 +161,19 @@ class WC_Gateway_FastSpring extends WC_Payment_Gateway
         $icons_enabled = self::get_setting('icons');
 
         $icons_str = '';
-        $icons_str .= in_array( 'paypal', $icons_enabled ) ? $icons['paypal'] : '';
-        $icons_str .= in_array( 'visa', $icons_enabled ) ? $icons['visa'] : '';
-        $icons_str .= in_array( 'amex', $icons_enabled ) ? $icons['amex'] : '';
-        $icons_str .= in_array( 'mastercard', $icons_enabled ) ? $icons['mastercard'] : '';
-        $icons_str .= in_array( 'discover', $icons_enabled ) ? $icons['discover'] : '';
-        $icons_str .= in_array( 'jcb', $icons_enabled ) ? $icons['jcb'] : '';
-        $icons_str .= in_array( 'diners', $icons_enabled ) ? $icons['diners'] : '';
-        $icons_str .= in_array( 'ideal', $icons_enabled ) ? $icons['ideal'] : '';
-        $icons_str .= in_array( 'unionpay', $icons_enabled ) ? $icons['unionpay'] : '';
-        $icons_str .= in_array( 'sofort', $icons_enabled ) ? $icons['sofort'] : '';
-        $icons_str .= in_array( 'giropay', $icons_enabled ) ? $icons['giropay'] : '';
+        $icons_str .= in_array('paypal', $icons_enabled) ? $icons['paypal'] : '';
+        $icons_str .= in_array('visa', $icons_enabled) ? $icons['visa'] : '';
+        $icons_str .= in_array('amex', $icons_enabled) ? $icons['amex'] : '';
+        $icons_str .= in_array('mastercard', $icons_enabled) ? $icons['mastercard'] : '';
+        $icons_str .= in_array('discover', $icons_enabled) ? $icons['discover'] : '';
+        $icons_str .= in_array('jcb', $icons_enabled) ? $icons['jcb'] : '';
+        $icons_str .= in_array('diners', $icons_enabled) ? $icons['diners'] : '';
+        $icons_str .= in_array('ideal', $icons_enabled) ? $icons['ideal'] : '';
+        $icons_str .= in_array('unionpay', $icons_enabled) ? $icons['unionpay'] : '';
+        $icons_str .= in_array('sofort', $icons_enabled) ? $icons['sofort'] : '';
+        $icons_str .= in_array('giropay', $icons_enabled) ? $icons['giropay'] : '';
 
-        return apply_filters( 'woocommerce_gateway_icon', $icons_str, $this->id );
+        return apply_filters('woocommerce_gateway_icon', $icons_str, $this->id);
     }
 
     /**
@@ -209,21 +219,25 @@ class WC_Gateway_FastSpring extends WC_Payment_Gateway
     {
         $load_scripts = false;
 
-        if (is_checkout()) {
+        if (is_checkout())
+        {
             $load_scripts = true;
         }
 
-        if ($this->is_available()) {
+        if ($this->is_available())
+        {
             $load_scripts = true;
         }
 
-        if (false === $load_scripts) {
+        if (false === $load_scripts)
+        {
             return;
         }
 
         $suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
 
-        if (self::get_setting('enabled')) {
+        if (self::get_setting('enabled'))
+        {
             wp_enqueue_script('fastspring', WC_FASTSPRING_SCRIPT, '', false, true);
 
             wp_enqueue_script('woocommerce_fastspring', plugins_url('assets/js/fastspring-checkout' . $suffix . '.js', WC_FASTSPRING_MAIN_FILE), array('jquery', 'fastspring'), WC_FASTSPRING_VERSION, true);
@@ -234,13 +248,13 @@ class WC_Gateway_FastSpring extends WC_Payment_Gateway
             'nonce' => array(
               'receipt' => wp_create_nonce('wc-fastspring-receipt'),
             ),
-          );
+        );
 
         $custom_css = '.woocommerce-checkout #payment ul.payment_methods li img.fastspring-icon { max-width: 40px; padding-left: 3px; margin: 0; }';
         $custom_css .= '.woocommerce-checkout #payment ul.payment_methods li img.fastspring-ideal-icon { max-height: 26px; }';
         $custom_css .= '.woocommerce-checkout #payment ul.payment_methods li img.fastspring-sofort-icon { max-width: 55px; magin-left: 3px; }';
 
-        wp_add_inline_style( 'woocommerce-inline', $custom_css );
+        wp_add_inline_style('woocommerce-inline', $custom_css);
 
         wp_localize_script('woocommerce_fastspring', 'woocommerce_fastspring_params', apply_filters('woocommerce_fastspring_params', $fastspring_params));
     }
@@ -257,8 +271,8 @@ class WC_Gateway_FastSpring extends WC_Payment_Gateway
         $order = wc_get_order($order_id);
 
         return array(
-          'result' => 'success',
-          'session' => WC_Gateway_FastSpring_Builder::get_secure_json_payload(),
+            'result' => 'success',
+            'session' => WC_Gateway_FastSpring_Builder::get_secure_json_payload(),
         );
     }
 
@@ -269,11 +283,12 @@ class WC_Gateway_FastSpring extends WC_Payment_Gateway
      *
      * @return string
      */
-    public function get_transaction_url( $order )
+    public function get_transaction_url($order)
     {
         $transaction_id = $order->get_transaction_id();
 
-        if ( $order->meta_exists('fs_order_id') ) {
+        if ($order->meta_exists('fs_order_id'))
+        {
             return 'https://dashboard.fastspring.com/order/home.xml?mRef=AcquisitionTransaction:' . $order->get_meta('fs_order_id');
         }
 
@@ -308,7 +323,8 @@ class WC_Gateway_FastSpring extends WC_Payment_Gateway
     {
         $description = $this->get_description();
 
-        if ($description) {
+        if ($description)
+        {
             echo wpautop(wptexturize(trim($description)));
         }
     }

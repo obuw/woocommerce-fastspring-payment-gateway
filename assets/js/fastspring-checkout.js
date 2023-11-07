@@ -46,7 +46,7 @@ function fastspringPopupCloseHandler (data) { // eslint-disable-line no-unused-v
     })
   }
 }
-// AJAX call to get odrer payment page for receipt and potentially mark order as complete usign FS API
+// AJAX call to get order payment page for receipt and potentially mark order as complete usign FS API
 function requestPaymentCompletionUrl (data, cb) { // eslint-disable-line no-unused-vars
   data.security = woocommerce_fastspring_params.nonce.receipt
   jQuery.ajax({

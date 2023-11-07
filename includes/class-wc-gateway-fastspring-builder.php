@@ -268,8 +268,8 @@ class WC_Gateway_FastSpring_Builder
         $payload = self::get_json_payload();
         $encypted = self::encrypt_payload($aes_key, json_encode($payload));
         $key = self::encrypt_key($aes_key);
-
-        return self::get_setting('testmode') === 'yes' ? [
+		
+		return self::get_setting('testmode') === 'yes' ? [
             'payload' => $payload,
             'key' => ''
 
